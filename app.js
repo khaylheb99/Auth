@@ -7,6 +7,7 @@ const authRouter = require('./routes/auth')
 
 //connectDB
 const connectDB = require('./db/connect')
+console.log(connectDB)
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -26,9 +27,13 @@ app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3000;
 
+const uri = process.env.Mongo_uri || 'mongodb+srv://Khaylheb:Melons16@cluster0.qbc8kmv.mongodb.net/Log?retryWrites=true&w=majority';
+
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI)
+    console.log({ uri })
+    await connectDB(uri)
+
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );

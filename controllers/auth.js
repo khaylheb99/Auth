@@ -8,9 +8,14 @@ const Register = async (req, res) => {
 
   const user = await User.create({...req.body})
   const token = user.createJWT()
-  console.log(req.body)
+  console.log(user)
 
-  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token })
+  if(user.password == user.Confirm_password){
+    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token }) 
+  } else {
+    
+    throw new UnauthenticatedError('Password do not match')
+  }
 }
 
 

@@ -21,13 +21,20 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide password'],
     minlength: 5
+  },
+  Confirm_password: {
+    type: String,
+    required: [true, 'Please retype password'],
+    minlength: 5
   }
 })
 
 UserSchema.pre('save', async function (){
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
+  this.Confirm_password = await bcrypt.hash(this.Confirm_password, salt)
 })
+
 
 UserSchema.methods.getName = function () {
   return this.name
